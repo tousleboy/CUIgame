@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "Scene.h"
 
+const size_t MAXSIZE = 100;
+
 Scene::Scene() {
 	// エスケープシーケンスを有効に
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);

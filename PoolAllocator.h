@@ -1,5 +1,8 @@
 #pragma once
 
+#include "MenoBohaviour.h"
+#include <string>
+
 // class Tを最大MAXSIZE個確保可能なPoolAllocatorを実装してください
 template<class T, size_t MAXSIZE> class PoolAllocator
 {
@@ -7,54 +10,48 @@ public:
 	// コンストラクタ
 	PoolAllocator() {
 		// TODO: 必要に応じて実装してください
-		buffer = new T[MAXSIZE];
-
-		freelist = nullptr;
-		for (size_t i = 0; i < MAXSIZE; i++) {
-			element_type* addr = reinterpret_cast<element_type*>(&buffer[i]);
-			addr->next = reinterpret_cast<uintptr_t>(freelist);
-			freelist = addr;
+		for (int i = 0; i < MAXSIZE - 1; ++i) {
+			m_data[i].next = &m_data[i + 1];
 		}
+		m_data[MAXSIZE - 1].next = nullptr;
+		m_list = &m_data[0];
 	}
 
 	// デストラクタ
 	~PoolAllocator() {
 		// TODO: 必要に応じて実装してください
-		delete[] reinterpret_cast<element_type*>(buffer);
 	}
 
 	// 確保できない場合はnullptrを返す事。
 	T* Alloc() {
 		// TODO: 実装してください
-		if (freelist == nullptr) {
-			return nullptr;
+		if (m_list) {
+			DATA* current = m_list;
+			DATA* next = current->next;
+			m_list = next;
+			T* ret = reinterpret_cast<T*>(current->data);
+			return ret;
 		}
-		T* result = reinterpret_cast<T*>(freelist);
-		freelist = reinterpret_cast<element_type*>(freelist->next);
-		return result;
+		return nullptr;
 	}
 
 	// Free(nullptr)で誤動作しないようにする事。
 	void Free(T* addr) {
 		// TODO: 実装してください
-		if (addr == nullptr) {
-			return;
+		if (addr) {
+			DATA* ptr = reinterpret_cast<DATA*>(addr);
+			ptr->next = m_list;
+			m_list = ptr;
 		}
-		element_type* elem = reinterpret_cast<element_type*>(addr);
-		elem->next = reinterpret_cast<uintptr_t>(freelist);
-		freelist = elem;
 	}
 
 private:
-	// TODO: 実装してください
-	union element_type {
-		T t;
-		std::uintptr_t next;
 
-		element_type() {}
-		~element_type() {}
+	union DATA {
+		DATA* next;
+		char data[sizeof(T)];
 	};
-	T* buffer;
-	element_type* freelist;
+
+	DATA m_data[MAXSIZE];
+	DATA* m_list;
 };
-#pragma once

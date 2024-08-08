@@ -1,19 +1,24 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <windows.h>
 #include "DblBuf.h"
 
+const int MB_SIZE = 100;
+
 class MenoBohaviour {
 protected:
-	std::string sprite;
-	COORD transform;
-	COORD offset;
+	std::vector<std::string> sprite;
+	DblBuf* buf;
 
 public:
-	MenoBohaviour(std::string str, int x, int y, int ox, int oy);
+	MenoBohaviour(std::vector<std::string> sprite, int x, int y, int ox, int oy, DblBuf* buf);
 	virtual void start();
 	virtual void update();
-	virtual void render(const DblBuf& buf);
-	void hoge();
+	virtual void render();
+	COORD transform;
+	COORD offset;
+	bool shoot;
+	bool dead;
 };

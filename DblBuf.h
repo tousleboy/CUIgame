@@ -29,14 +29,20 @@ class DblBuf {
 	bool swapped;
 	HANDLE hCons1;
 	HANDLE hCons2;
+	COORD bufferSize;
+	CHAR_INFO* buffer;
+
+	void getContents();
 
 public:
 	DblBuf();
 	~DblBuf();
 
-	void setColor(int fg, int bg) const;
+	void setColor(int fg, int bg = COL_BLACK) const;
 	void setCurPos(COORD pos) const;
 	void write(const std::string& s) const;
 	void swap();
 	void clear();
+	char getChar(COORD pos) const;
+	bool isInScreen(COORD pos) const;
 };

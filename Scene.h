@@ -11,6 +11,10 @@
 #include <conio.h>
 */
 
+#include "PoolAllocator.h"
+#include "BulletController.h"
+const size_t MAX_ALLOCATE = 100;
+
 class Scene {
 public:
 	Scene();

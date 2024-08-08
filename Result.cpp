@@ -9,6 +9,6 @@ void Scene::Result() {
 	do
 	{
 		i = _getch(); // ƒL[“ü—Í‘Ò‚¿
-	} while ('q' != i);
+	} while ('c' != i);
 	Title();
 }
