@@ -1,39 +1,36 @@
-#include <iostream>
-#include <stdio.h>
-#include <conio.h>
+#include <chrono>
+#include <thread>
+#include <vector>
+#include "DblBuf.h"
+#include "MenoBohaviour.h"
+#include "PlayerController.h"
 #include "Scene.h"
 
+#define FPS 2
+
 void Scene::Game() {
-	std::system("cls");
-	// テンキー or wasdで@マークが移動するだけのサンプル
-	// サンプルなので消しても大丈夫です。
-	int x = 0; // X座標
-	int y = 0; // Y座標
-	int i; // キー入力値
-	do
-	{
-		printf("\x1b[%d;%dH@", y, x); // 今の座標に'@'表示
-		i = _getch(); // キー入力待ち
-		printf("\x1b[%d;%dH ", y, x); // 前の座標に' '表示
-		// キー入力で座標更新
-		switch (i) {
-		case '2':
-		case 's':
-			++y;
-			break;
-		case '4':
-		case 'a':
-			--x;
-			break;
-		case '6':
-		case 'd':
-			++x;
-			break;
-		case '8':
-		case 'w':
-			--y;
-			break;
-		}
-	} while ('q' != i); // 'q'キーで終了
-	Result();
+    DblBuf buf;
+    std::vector<MenoBohaviour*> objs = {
+        new PlayerController("@", 10, 10, 0, 0),
+        new PlayerController("#", 12, 13, 0, 0)
+    };
+
+    while (true) {
+        buf.clear();
+        auto start = std::chrono::high_resolution_clock::now();
+
+        for (auto obj : objs) {
+            obj->update();
+        }
+
+        for (auto obj : objs) {
+            obj->render(buf);
+        }
+
+        //buf.swap();
+
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed = end - start;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000 / FPS) - elapsed);
+    }
 }

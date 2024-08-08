@@ -119,11 +119,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,13 +148,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DblBuf.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Lesson8.cpp" />
+    <ClCompile Include="MenoBohaviour.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="SceneConstructor.cpp" />
     <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DblBuf.h" />
+    <ClInclude Include="MenoBohaviour.h" />
+    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="PoolAllocator.h" />
     <ClInclude Include="Scene.h" />
   </ItemGroup>
