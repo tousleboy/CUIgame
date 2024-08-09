@@ -11,6 +11,8 @@ Scene::Scene() {
 	GetConsoleMode(hStdOut, &mode);
 	SetConsoleMode(hStdOut, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 
+	score = 0;
+
 	// ÉJÅ[É\ÉãÇè¡Ç∑
 	printf("\x1b[?25l");
 	Title();

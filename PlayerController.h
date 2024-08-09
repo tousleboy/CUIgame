@@ -35,23 +35,28 @@ class PlayerController : public MenoBohaviour {
 public:
 	void update() {
 		COORD nextPos = transform;
-		nextPos.X += 1;
-		char next = buf->getChar(nextPos);
 		
 		if (GetAsyncKeyState(87) & 0x8000) {
-			transform.Y--;
+			if(transform.Y - 1 >= 0)transform.Y--;
 		}
 		if (GetAsyncKeyState(83) & 0x8000) {
-			transform.Y++;
+			if(transform.Y <= 25)transform.Y++;
 		}
 		if (GetAsyncKeyState(68) & 0x8000) {
-			transform.X++;
+			if(transform.X <= 80)transform.X++;
 		}
 		if (GetAsyncKeyState(65) & 0x8000) {
-			transform.X--;
+			if(transform.X >= 0) transform.X--;
 		}
 		if (GetAsyncKeyState(32) & 0x8000) {
 			shoot = true;
+		}
+
+		for (SHORT dx = -1; dx <= 1; dx++) {
+			for (SHORT dy = -1; dy <= 0; dy++) {
+				char next = buf->getChar(COORD{ nextPos.X + dx, nextPos.Y + dy });
+				if (next == 'E') dead = true;
+			}
 		}
 	}
 };

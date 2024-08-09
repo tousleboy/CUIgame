@@ -19,6 +19,7 @@ class Scene {
 public:
 	Scene();
 	~Scene();
+	int score;
 
 private:
 	void Title();
